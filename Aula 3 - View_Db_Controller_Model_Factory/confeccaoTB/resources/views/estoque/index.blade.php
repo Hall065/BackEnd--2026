@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Nossa Confecção
+            Estoque
         </h2>
     </x-slot>
 
@@ -84,49 +84,67 @@
         .orders-table tr:last-child td { border-bottom: none; }
         .orders-table tbody tr:hover td { background: #faf8f4; }
 
+        .badge {
+            display: inline-block;
+            padding: 0.22rem 0.75rem;
+            border-radius: 1px;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .badge-low  { background: #EAD9D5; color: #6b3a3a; }
+        .badge-ok   { background: #D5EAD9; color: #3a6b44; }
+        .badge-high { background: #D5E0EA; color: #2e4a6b; }
+
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(18px); }
             to   { opacity: 1; transform: translateY(0); }
         }
         .fade-up { animation: fadeUp 0.55s ease both; }
         .delay-1 { animation-delay: 0.07s; }
-        .delay-2 { animation-delay: 0.14s; }
     </style>
 
     <div class="dash-root py-10 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto space-y-6">
 
             <div class="fade-up">
-                <p class="dash-subtitle mb-1">Gestão</p>
-                <h1 class="dash-greeting">Clientes <span>cadastrados</span></h1>
+                <p class="dash-subtitle mb-1">Controle</p>
+                <h1 class="dash-greeting">Estoque <span>de produtos</span></h1>
             </div>
 
             <div class="section-card fade-up delay-1">
                 <div class="gold-divider"></div>
                 <div class="flex items-center justify-between mb-5">
-                    <h2 class="section-title">Lista de Clientes</h2>
+                    <h2 class="section-title">Inventário</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="orders-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>Endereço</th>
+                                <th>Nome do Produto</th>
+                                <th>Produto ID</th>
+                                <th>Quantidade</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($clients as $client)
+                            @foreach ($estoques as $estoque)
                                 <tr>
-                                    <td>{{ $client->id }}</td>
-                                    <td>{{ $client->name }}</td>
-                                    <td>{{ $client->cpf }}</td>
-                                    <td>{{ $client->email }}</td>
-                                    <td>{{ $client->telefone }}</td>
-                                    <td>{{ $client->endereco }}</td>
+                                    <td>{{ $estoque->id }}</td>
+                                    <td>{{ optional($estoque->produto)->name }}</td>
+                                    <td>{{ $estoque->produto_id }}</td>
+                                    <td>
+                                        @php $q = $estoque->qntd; @endphp
+                                        @if($q <= 10)
+                                            <span class="badge badge-low">{{ $q }} — Baixo</span>
+                                        @elseif($q <= 100)
+                                            <span class="badge badge-ok">{{ $q }}</span>
+                                        @else
+                                            <span class="badge badge-high">{{ $q }}</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

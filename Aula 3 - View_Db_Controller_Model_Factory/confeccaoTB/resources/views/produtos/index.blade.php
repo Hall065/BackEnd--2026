@@ -5,31 +5,145 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <table class="min-w-full table-auto">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+        .dash-root { font-family: 'Jost', sans-serif; background: #F7F4EF; min-height: 100vh; }
+
+        .dash-subtitle {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.82rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #8a7a60;
+        }
+
+        .dash-greeting {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 2rem;
+            font-weight: 300;
+            color: #1a1208;
+            line-height: 1.1;
+        }
+
+        .dash-greeting span { color: #B08D57; }
+
+        .section-card {
+            background: #fff;
+            border: 1px solid #e8e0d0;
+            border-radius: 2px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #B08D57, #d4b07a);
+        }
+
+        .gold-divider {
+            height: 1px;
+            background: linear-gradient(90deg, #B08D57 0%, transparent 100%);
+            width: 40px;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #1a1208;
+        }
+
+        .orders-table { width: 100%; border-collapse: collapse; }
+
+        .orders-table th {
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a7a60;
+            font-weight: 400;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e8e0d0;
+        }
+
+        .orders-table td {
+            padding: 0.9rem 1rem;
+            font-size: 0.86rem;
+            color: #3a2e1e;
+            border-bottom: 1px solid #f0ece4;
+            font-weight: 300;
+        }
+
+        .orders-table tr:last-child td { border-bottom: none; }
+        .orders-table tbody tr:hover td { background: #faf8f4; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.22rem 0.75rem;
+            border-radius: 1px;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .badge-ativo   { background: #D5EAD9; color: #3a6b44; }
+        .badge-inativo { background: #EAD9D5; color: #6b3a3a; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.55s ease both; }
+        .delay-1 { animation-delay: 0.07s; }
+    </style>
+
+    <div class="dash-root py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto space-y-6">
+
+            <div class="fade-up">
+                <p class="dash-subtitle mb-1">Catálogo</p>
+                <h1 class="dash-greeting">Nossos <span>produtos</span></h1>
+            </div>
+
+            <div class="section-card fade-up delay-1">
+                <div class="gold-divider"></div>
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="section-title">Lista de Produtos</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="orders-table">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2">ID</th>
-                                <th class="px-4 py-2">Nome</th>
-                                <th class="px-4 py-2">Descrição</th>
-                                <th class="px-4 py-2">Preço</th>
-                                <th class="px-4 py-2">Fornecedor</th>
-                                <th class="px-4 py-2">Ativo</th>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Fornecedor</th>
+                                <th>Ativo</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($produtos as $produto)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $produto->id }}</td>
-                                    <td class="border px-4 py-2">{{ $produto->name }}</td>
-                                    <td class="border px-4 py-2">{{ $produto->descricao }}</td>
-                                    <td class="border px-4 py-2">R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
-                                    <td class="border px-4 py-2">{{ $produto->fornecedor_id }}</td>
-                                    <td class="border px-4 py-2">
-                                        {{ $produto->ativo ? 'Sim' : 'Não' }}
+                                    <td>{{ $produto->id }}</td>
+                                    <td>{{ $produto->name }}</td>
+                                    <td>{{ $produto->descricao }}</td>
+                                    <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
+                                    <td>{{ $produto->fornecedor_id }}</td>
+                                    <td>
+                                        @if($produto->ativo)
+                                            <span class="badge badge-ativo">Sim</span>
+                                        @else
+                                            <span class="badge badge-inativo">Não</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -37,6 +151,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>

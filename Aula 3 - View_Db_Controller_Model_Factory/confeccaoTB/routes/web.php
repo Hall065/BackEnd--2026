@@ -5,7 +5,9 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FornecedoresController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\EstoqueController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +17,7 @@ Route::get('/clients', [ClientController::class, 'index'])->name('clients.index'
 Route::get('/fornecedores', [FornecedoresController::class, 'index'])->name('fornecedores.index');
 Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index');
 Route::get('/produtos', [ProdutosController::class, 'index'])->name('produtos.index');
+Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoque.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

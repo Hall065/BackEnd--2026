@@ -1,8 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Dashboard
-        </h2>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a>
+                    <img src="{{ asset('carretelLogo.png') }}" alt="Logo" style="height: 40px; width: auto;">
+                </a>
+
+                <div style="width: 1px; height: 24px; background: #e8e0d0;"></div>
+
+                <h2
+                    style="font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8a7a60; margin: 0;">
+                    Dashboard
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <style>
@@ -49,14 +60,16 @@
         }
 
         .stat-card:hover {
-            box-shadow: 0 8px 32px rgba(26,18,8,0.10);
+            box-shadow: 0 8px 32px rgba(26, 18, 8, 0.10);
             transform: translateY(-2px);
         }
 
         .stat-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, #B08D57, #d4b07a);
         }
@@ -91,7 +104,9 @@
             color: #6b8f71;
         }
 
-        .stat-change.down { color: #9f5050; }
+        .stat-change.down {
+            color: #9f5050;
+        }
 
         /* Orders Table */
         .section-title {
@@ -126,9 +141,13 @@
             font-weight: 300;
         }
 
-        .orders-table tr:last-child td { border-bottom: none; }
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
 
-        .orders-table tr:hover td { background: #faf8f4; }
+        .orders-table tr:hover td {
+            background: #faf8f4;
+        }
 
         .badge {
             display: inline-block;
@@ -140,10 +159,25 @@
             font-weight: 400;
         }
 
-        .badge-em-producao  { background: #EEE8D5; color: #7a6830; }
-        .badge-concluido    { background: #D5EAD9; color: #3a6b44; }
-        .badge-aguardando   { background: #EAD9D5; color: #6b3a3a; }
-        .badge-entregue     { background: #D5E0EA; color: #2e4a6b; }
+        .badge-em-producao {
+            background: #EEE8D5;
+            color: #7a6830;
+        }
+
+        .badge-concluido {
+            background: #D5EAD9;
+            color: #3a6b44;
+        }
+
+        .badge-aguardando {
+            background: #EAD9D5;
+            color: #6b3a3a;
+        }
+
+        .badge-entregue {
+            background: #D5E0EA;
+            color: #2e4a6b;
+        }
 
         /* Activity Feed */
         .activity-item {
@@ -154,10 +188,13 @@
             border-bottom: 1px solid #f0ece4;
         }
 
-        .activity-item:last-child { border-bottom: none; }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
 
         .activity-dot {
-            width: 8px; height: 8px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #B08D57;
             margin-top: 0.35rem;
@@ -200,7 +237,9 @@
             transform: translateX(3px);
         }
 
-        .action-btn:hover .action-icon { filter: invert(1); }
+        .action-btn:hover .action-icon {
+            filter: invert(1);
+        }
 
         .action-label {
             font-size: 0.8rem;
@@ -233,17 +272,44 @@
 
         /* Fade-in animation */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .fade-up { animation: fadeUp 0.55s ease both; }
-        .delay-1 { animation-delay: 0.07s; }
-        .delay-2 { animation-delay: 0.14s; }
-        .delay-3 { animation-delay: 0.21s; }
-        .delay-4 { animation-delay: 0.28s; }
-        .delay-5 { animation-delay: 0.35s; }
-        .delay-6 { animation-delay: 0.42s; }
+        .fade-up {
+            animation: fadeUp 0.55s ease both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.07s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.14s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.21s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.28s;
+        }
+
+        .delay-5 {
+            animation-delay: 0.35s;
+        }
+
+        .delay-6 {
+            animation-delay: 0.42s;
+        }
     </style>
 
     <div class="dash-root py-10 px-4 sm:px-6 lg:px-8">
@@ -291,7 +357,9 @@
                     <div class="gold-divider"></div>
                     <div class="flex items-center justify-between mb-5">
                         <h2 class="section-title">Pedidos Recentes</h2>
-                        <a href="#" class="text-[0.7rem] tracking-widest uppercase text-[#B08D57] hover:text-[#1a1208] transition-colors font-[400]">Ver todos →</a>
+                        <a href="#"
+                            class="text-[0.7rem] tracking-widest uppercase text-[#B08D57] hover:text-[#1a1208] transition-colors font-[400]">Ver
+                            todos →</a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="orders-table">
@@ -355,31 +423,43 @@
                         <div class="space-y-4">
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Camisas</span>
+                                    <span
+                                        style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Camisas</span>
                                     <span style="font-size:0.8rem;color:#1a1208;">78%</span>
                                 </div>
-                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:78%"></div></div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width:78%"></div>
+                                </div>
                             </div>
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Calças</span>
+                                    <span
+                                        style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Calças</span>
                                     <span style="font-size:0.8rem;color:#1a1208;">54%</span>
                                 </div>
-                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:54%"></div></div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width:54%"></div>
+                                </div>
                             </div>
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Vestidos</span>
+                                    <span
+                                        style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Vestidos</span>
                                     <span style="font-size:0.8rem;color:#1a1208;">91%</span>
                                 </div>
-                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:91%"></div></div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width:91%"></div>
+                                </div>
                             </div>
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Jaquetas</span>
+                                    <span
+                                        style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#8a7a60;">Jaquetas</span>
                                     <span style="font-size:0.8rem;color:#1a1208;">36%</span>
                                 </div>
-                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:36%"></div></div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width:36%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

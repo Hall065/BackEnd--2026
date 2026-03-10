@@ -1,52 +1,139 @@
 <x-guest-layout>
+    <style>
+        /* Estilização Geral do Fundo e Card */
+        .min-h-screen { 
+            background-color: #F7F4EF !important; 
+        }
+        
+        .sm\:max-w-md { 
+            background: #fff !important; 
+            border: 1px solid #e8e0d0 !important; 
+            border-radius: 2px !important;
+            box-shadow: 0 10px 25px rgba(26, 18, 8, 0.05) !important;
+            padding: 2.5rem !important;
+        }
+
+        /* Logo/Título Superior */
+        .auth-logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1208;
+        }
+        .auth-logo-text span { color: #B08D57; }
+
+        /* Labels e Inputs */
+        label { 
+            font-family: 'Jost', sans-serif; 
+            text-transform: uppercase; 
+            letter-spacing: 0.12em; 
+            font-size: 0.7rem !important; 
+            color: #8a7a60 !important;
+            margin-bottom: 0.4rem;
+        }
+
+        input { 
+            border-color: #e8e0d0 !important; 
+            border-radius: 1px !important; 
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            color: #1a1208 !important;
+        }
+
+        input:focus { 
+            border-color: #B08D57 !important; 
+            --tw-ring-color: #B08D57 !important; 
+        }
+
+        /* Botão Primário (Registrar) */
+        .btn-auth-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #1a1208 !important;
+            color: #F7F4EF !important;
+            font-family: 'Jost', sans-serif;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 1px;
+            border: 1px solid #1a1208;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-auth-primary:hover {
+            background-color: #B08D57 !important;
+            border-color: #B08D57 !important;
+        }
+
+        /* Link "Já possuo conta" */
+        .auth-link {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            color: #8a7a60;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+
+        .auth-link:hover {
+            color: #1a1208;
+            text-decoration: underline;
+        }
+
+        .form-spacing { margin-top: 1.5rem; }
+    </style>
+
+    <div class="auth-logo-text">
+        Ateliê <span>Confecção</span>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Nome Completo')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
+        <div class="form-spacing">
+            <x-input-label for="email" :value="__('E-mail Profissional')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
+        <div class="form-spacing">
+            <x-input-label for="password" :value="__('Senha')" />
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
+        <div class="form-spacing">
+            <x-input-label for="password_confirmation" :value="__('Confirmar Senha')" />
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <div class="flex flex-col items-center gap-4 mt-8">
+            <button type="submit" class="btn-auth-primary">
+                {{ __('Criar Minha Conta') }}
+            </button>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+            <a class="auth-link" href="{{ route('login') }}">
+                {{ __('Já possui uma conta?') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>

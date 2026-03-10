@@ -84,13 +84,61 @@
         .orders-table tr:last-child td { border-bottom: none; }
         .orders-table tbody tr:hover td { background: #faf8f4; }
 
+        /* Botão adicionar */
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: #F7F4EF;
+            background: #1a1208;
+            border: 1px solid #1a1208;
+            border-radius: 1px;
+            padding: 0.55rem 1.1rem;
+            text-decoration: none;
+            transition: all 0.22s ease;
+        }
+
+        .btn-add:hover {
+            background: #B08D57;
+            border-color: #B08D57;
+            color: #fff;
+        }
+
+        /* Notificação de sucesso */
+        .alert-success {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #f2f8f3;
+            border: 1px solid #b8d9be;
+            border-left: 3px solid #5a9e6a;
+            border-radius: 1px;
+            padding: 0.85rem 1.1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.82rem;
+            color: #2e5c38;
+            letter-spacing: 0.03em;
+            font-weight: 400;
+            animation: fadeUp 0.4s ease both;
+        }
+
+        .alert-success-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(18px); }
             to   { opacity: 1; transform: translateY(0); }
         }
+
         .fade-up { animation: fadeUp 0.55s ease both; }
         .delay-1 { animation-delay: 0.07s; }
-        .delay-2 { animation-delay: 0.14s; }
     </style>
 
     <div class="dash-root py-10 px-4 sm:px-6 lg:px-8">
@@ -101,11 +149,23 @@
                 <h1 class="dash-greeting">Clientes <span>cadastrados</span></h1>
             </div>
 
+            {{-- Notificação de sucesso --}}
+            @if (session('success'))
+                <div class="alert-success fade-up">
+                    <span class="alert-success-icon">✓</span>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
             <div class="section-card fade-up delay-1">
                 <div class="gold-divider"></div>
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="section-title">Lista de Clientes</h2>
+                    <a href="{{ route('clients.create') }}" class="btn-add">
+                        <span>＋</span> Adicionar Cliente
+                    </a>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="orders-table">
                         <thead>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Clients extends Model
 {
     use HasFactory;
+    protected $table = 'clients';
     protected $fillable = [
         'name',
         'cpf',

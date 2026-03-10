@@ -32,7 +32,8 @@
             transition: color 0.2s ease, border-color 0.2s ease;
         }
 
-        .nav-link-item:hover {
+        .nav-link-item:hover,
+        .nav-item-wrapper:hover .nav-link-item {
             color: #F7F4EF;
             border-bottom-color: #B08D57;
         }
@@ -42,6 +43,68 @@
             border-bottom-color: #B08D57;
         }
 
+        /* --- Novo CSS para o Dropdown Hover --- */
+        .nav-item-wrapper {
+            position: relative;
+            height: 100%;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-hover-menu {
+            position: absolute;
+            top: 100%; /* Cola exatamente na base da navbar */
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #1a1208;
+            border: 1px solid #2e2415;
+            border-top: 2px solid #B08D57;
+            padding: 0.5rem 0;
+            min-width: 170px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 50;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* O hover no wrapper ativa o menu */
+        .nav-item-wrapper:hover .nav-hover-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Área invisível para impedir que o menu suma ao descer o mouse */
+        .nav-hover-menu::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: transparent;
+        }
+
+        .nav-hover-link {
+            display: block;
+            padding: 0.7rem 1.2rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #a89880;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-hover-link:hover {
+            color: #F7F4EF;
+            background: rgba(176, 141, 87, 0.08);
+        }
+        /* -------------------------------------- */
+
         .nav-divider {
             width: 1px;
             height: 16px;
@@ -49,7 +112,7 @@
             margin: 0 0.25rem;
         }
 
-        /* Dropdown trigger */
+        /* Dropdown trigger User */
         .nav-user-btn {
             display: inline-flex;
             align-items: center;
@@ -102,19 +165,16 @@
         }
     </style>
 
-    <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between" style="height: 60px;">
 
-            <!-- Left: Logo + Links -->
             <div class="flex items-center gap-8">
-                <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="nav-logo-text shrink-0">
                     Ateliê <span>Confecção</span>
                 </a>
 
-                <!-- Nav Links Desktop -->
                 <div class="hidden sm:flex items-center h-full" style="gap: 1.75rem;">
+                    
                     <a href="{{ route('dashboard') }}"
                        class="nav-link-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         Dashboard
@@ -122,34 +182,59 @@
 
                     <span class="nav-gold-dot"></span>
 
-                    <a href="{{ route('clients.index') }}"
-                       class="nav-link-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
-                        Clientes
-                    </a>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('clients.index') }}"
+                           class="nav-link-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
+                            Clientes
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('clients.create') }}" class="nav-hover-link">+ Novo Cliente</a>
+                        </div>
+                    </div>
 
-                    <a href="{{ route('produtos.index') }}"
-                       class="nav-link-item {{ request()->routeIs('produtos.*') ? 'active' : '' }}">
-                        Produtos
-                    </a>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('produtos.index') }}"
+                           class="nav-link-item {{ request()->routeIs('produtos.*') ? 'active' : '' }}">
+                            Produtos
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('produtos.create') }}" class="nav-hover-link">+ Novo Produto</a>
+                        </div>
+                    </div>
 
-                    <a href="{{ route('fornecedores.index') }}"
-                       class="nav-link-item {{ request()->routeIs('fornecedores.*') ? 'active' : '' }}">
-                        Fornecedores
-                    </a>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('fornecedores.index') }}"
+                           class="nav-link-item {{ request()->routeIs('fornecedores.*') ? 'active' : '' }}">
+                            Fornecedores
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('fornecedores.create') }}" class="nav-hover-link">+ Novo Fornecedor</a>
+                        </div>
+                    </div>
 
-                    <a href="{{ route('pedidos.index') }}"
-                       class="nav-link-item {{ request()->routeIs('pedidos.*') ? 'active' : '' }}">
-                        Pedidos
-                    </a>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('pedidos.index') }}"
+                           class="nav-link-item {{ request()->routeIs('pedidos.*') ? 'active' : '' }}">
+                            Pedidos
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('pedidos.create') }}" class="nav-hover-link">+ Novo Pedido</a>
+                        </div>
+                    </div>
 
-                    <a href="{{ route('estoque.index') }}"
-                       class="nav-link-item {{ request()->routeIs('estoque.*') ? 'active' : '' }}">
-                        Estoque
-                    </a>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('estoque.index') }}"
+                           class="nav-link-item {{ request()->routeIs('estoque.*') ? 'active' : '' }}">
+                            Estoque
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('estoque.create') }}" class="nav-hover-link">+ Adicionar Item</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- Right: User Dropdown -->
             <div class="hidden sm:flex items-center">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -177,7 +262,6 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger (mobile) -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
                     style="color:#a89880; background:transparent; border:none; padding:0.5rem; cursor:pointer;">
@@ -194,7 +278,6 @@
         </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden"
          style="border-top: 1px solid #2e2415;">
 
@@ -225,7 +308,6 @@
             </a>
         </div>
 
-        <!-- Mobile User Info -->
         <div style="border-top: 1px solid #2e2415; padding: 1rem 1.25rem 0.75rem;">
             <p style="font-size:0.8rem;color:#F7F4EF;font-weight:400;letter-spacing:0.05em;">{{ Auth::user()->name }}</p>
             <p style="font-size:0.72rem;color:#a89880;letter-spacing:0.05em;margin-top:0.1rem;">{{ Auth::user()->email }}</p>

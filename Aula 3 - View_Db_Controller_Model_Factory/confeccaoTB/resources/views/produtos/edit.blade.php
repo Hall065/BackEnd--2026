@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Cadastrar Novo Produto</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Produto</h2>
     </x-slot>
 
     <style>
@@ -24,31 +24,32 @@
     <div class="dash-root py-10 px-4">
         <div class="max-w-4xl mx-auto space-y-6">
             <div class="fade-up">
-                <p class="dash-subtitle mb-1">Novo Registro</p>
-                <h1 class="dash-greeting">Cadastrar <span>Produto</span></h1>
+                <p class="dash-subtitle mb-1">Atualizar Registro</p>
+                <h1 class="dash-greeting">Editar <span>Produto</span></h1>
             </div>
 
             <div class="section-card fade-up">
                 <div class="gold-divider"></div>
-                <form action="{{ route('produtos.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('produtos.update', $produto->id) }}" method="POST" class="space-y-6">
                     @csrf
+                    @method('PUT')
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label for="name" class="dash-label">Nome do Produto</label>
-                            <input id="name" name="name" type="text" class="dash-input" value="{{ old('name') }}" required />
+                            <input id="name" name="name" type="text" class="dash-input" value="{{ old('name', $produto->name) }}" required />
                             @error('name') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label for="preco" class="dash-label">Preço Unitário (R$)</label>
-                            <input id="preco" name="preco" type="number" step="0.01" min="0" class="dash-input" value="{{ old('preco') }}" required />
+                            <input id="preco" name="preco" type="number" step="0.01" min="0" class="dash-input" value="{{ old('preco', $produto->preco) }}" required />
                             @error('preco') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
                     <div>
                         <label for="descricao" class="dash-label">Descrição Breve</label>
-                        <input id="descricao" name="descricao" type="text" class="dash-input" value="{{ old('descricao') }}" required />
+                        <input id="descricao" name="descricao" type="text" class="dash-input" value="{{ old('descricao', $produto->descricao) }}" required />
                         @error('descricao') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -56,9 +57,8 @@
                         <div>
                             <label for="fornecedor_id" class="dash-label">Fornecedor</label>
                             <select id="fornecedor_id" name="fornecedor_id" class="dash-input" required>
-                                <option value="" disabled selected>Selecione um fornecedor...</option>
                                 @foreach($fornecedores as $fornecedor)
-                                    <option value="{{ $fornecedor->id }}" {{ old('fornecedor_id') == $fornecedor->id ? 'selected' : '' }}>
+                                    <option value="{{ $fornecedor->id }}" {{ old('fornecedor_id', $produto->fornecedor_id) == $fornecedor->id ? 'selected' : '' }}>
                                         {{ $fornecedor->nome }}
                                     </option>
                                 @endforeach
@@ -69,15 +69,15 @@
                         <div>
                             <label for="ativo" class="dash-label">Status do Produto</label>
                             <select id="ativo" name="ativo" class="dash-input" required>
-                                <option value="1" {{ old('ativo', '1') == '1' ? 'selected' : '' }}>Ativo</option>
-                                <option value="0" {{ old('ativo') == '0' ? 'selected' : '' }}>Inativo</option>
+                                <option value="1" {{ old('ativo', $produto->ativo) == '1' ? 'selected' : '' }}>Ativo</option>
+                                <option value="0" {{ old('ativo', $produto->ativo) == '0' ? 'selected' : '' }}>Inativo</option>
                             </select>
                             @error('ativo') <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
                     <div class="flex items-center gap-6 pt-4 border-t border-[#e8e0d0] mt-6">
-                        <button type="submit" class="btn-submit">Cadastrar Produto</button>
+                        <button type="submit" class="btn-submit">Salvar Alterações</button>
                         <a href="{{ route('produtos.index') }}" class="btn-cancel">Cancelar</a>
                     </div>
                 </form>

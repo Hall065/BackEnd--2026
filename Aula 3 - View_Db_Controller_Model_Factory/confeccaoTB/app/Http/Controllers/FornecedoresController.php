@@ -10,8 +10,6 @@ class FornecedoresController extends Controller
     public function index() 
     {
         $fornecedores = Fornecedores::all();
-        // Nota: Certifique-se de que a pasta na sua view está em minúsculo (fornecedores.index) ou maiúsculo (Fornecedores.index) 
-        // e ajuste aqui se necessário. Vou usar minúsculo como padrão do Laravel.
         return view('Fornecedores.index', compact('fornecedores'));
     }
 
@@ -22,28 +20,46 @@ class FornecedoresController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validação dos dados
         $request->validate([
             'nome'     => 'required|string|max:255',
-            'cnpj'     => 'required|string|max:20|unique:fornecedores,cnpj', // Garante que não repita CNPJ
-            'email'    => 'required|email|max:255|unique:fornecedores,email', // Garante que não repita Email
+            'cnpj'     => 'required|string|max:20|unique:fornecedores,cnpj',
+            'email'    => 'required|email|max:255|unique:fornecedores,email',
             'telefone' => 'required|string|max:20',
-        ], [
-            // Mensagens personalizadas (opcional)
-            'cnpj.unique' => 'Este CNPJ já está cadastrado no sistema.',
-            'email.unique' => 'Este E-mail já está cadastrado no sistema.'
         ]);
 
-        // 2. Criação do registro no banco
-        Fornecedores::create([
-            'nome'     => $request->nome,
-            'cnpj'     => $request->cnpj,
-            'email'    => $request->email,
-            'telefone' => $request->telefone,
-        ]);
+        Fornecedores::create($request->all());
 
-        // 3. Redirecionamento com mensagem de sucesso
         return redirect()->route('fornecedores.index')
             ->with('success', 'Fornecedor cadastrado com sucesso!');
+    }
+
+    // --- NOVOS MÉTODOS ---
+
+    public function edit(Fornecedores $fornecedore)
+    {
+        // Nota: O Laravel injeta o model. Se a variável na rota for {fornecedore}, use esse nome.
+        return view('Fornecedores.edit', compact('fornecedore'));
+    }
+
+    public function update(Request $request, Fornecedores $fornecedore)
+    {
+        $request->validate([
+            'nome'     => 'required|string|max:255',
+            'cnpj'     => 'required|string|max:20|unique:fornecedores,cnpj,' . $fornecedore->id,
+            'email'    => 'required|email|max:255|unique:fornecedores,email,' . $fornecedore->id,
+            'telefone' => 'required|string|max:20',
+        ]);
+
+        $fornecedore->update($request->all());
+
+        return redirect()->route('fornecedores.index')
+            ->with('success', 'Fornecedor atualizado com sucesso!');
+    }
+
+    public function destroy(Fornecedores $fornecedore)
+    {
+        $fornecedore->delete();
+        return redirect()->route('fornecedores.index')
+            ->with('success', 'Fornecedor removido com sucesso!');
     }
 }

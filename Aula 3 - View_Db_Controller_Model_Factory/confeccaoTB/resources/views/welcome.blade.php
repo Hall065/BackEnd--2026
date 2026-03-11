@@ -29,6 +29,15 @@
                 overflow-x: hidden;
             }
 
+            /* Logo */
+            .hero-logo {
+                width: 80px;
+                height: auto;
+                margin-bottom: 1.5rem;
+                opacity: 0.85;
+                animation: fadeUp 0.8s ease both;
+            }
+
             /* Linha dourada no topo da página */
             body::before {
                 content: '';
@@ -213,6 +222,7 @@
         @endif
 
         <main class="hero-section">
+            <img src="{{ asset('carretelLogo.png') }}" alt="Ateliê Confecção Logo" class="hero-logo">
             <h2 class="hero-subtitle">Sistema de Gestão</h2>
             
             <h1 class="hero-title">Ateliê <span>Confecção</span></h1>

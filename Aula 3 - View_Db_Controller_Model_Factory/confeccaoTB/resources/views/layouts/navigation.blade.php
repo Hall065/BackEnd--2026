@@ -231,6 +231,15 @@
                             <a href="{{ route('estoque.create') }}" class="nav-hover-link">+ Adicionar Item</a>
                         </div>
                     </div>
+                    <div class="nav-item-wrapper">
+                        <a href="{{ route('characters.index') }}"
+                           class="nav-link-item {{ request()->routeIs('characters.*') ? 'active' : '' }}">
+                            Personagens
+                        </a>
+                        <div class="nav-hover-menu">
+                            <a href="{{ route('characters.create') }}" class="nav-hover-link">+ Novo Personagem</a>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -305,6 +314,10 @@
             <a href="{{ route('estoque.index') }}"
                class="mobile-nav-link {{ request()->routeIs('estoque.*') ? 'active' : '' }}">
                 Estoque
+            </a>
+            <a href="{{ route('characters.index') }}"
+               class="mobile-nav-link {{ request()->routeIs('characters.*') ? 'active' : '' }}">
+                Personagens
             </a>
         </div>
 

@@ -36,6 +36,7 @@
             grid-template-columns: repeat(1, 1fr);
             gap: 28px;
             justify-content: flex-start;
+            align-items: stretch;
         }
         /* Responsividade para telas maiores */
         @media (min-width: 768px) {
@@ -84,8 +85,10 @@
         /* Card wrapper — botões de ação aparecem no hover */
         .card-wrap {
             position: relative;
-            display: block;
+            display: flex;
+            flex-direction: column;
             width: 100%;
+            height: 100%;
         }
 
         .card-actions {
@@ -153,6 +156,78 @@
         .delay-1 { animation-delay: 0.07s; }
         .delay-2 { animation-delay: 0.14s; }
     </style>
+
+    {{-- ══════════════════════════════════════════════════════════════════ --}}
+    {{-- MODAL: Aviso Projeto Pessoal                                       --}}
+    {{-- ══════════════════════════════════════════════════════════════════ --}}
+    <div id="modalProjetoPessoal"
+         style="
+             position: fixed;
+             inset: 0;
+             z-index: 9999;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             padding: 1rem;
+             background: rgba(26,18,8,0.82);
+             backdrop-filter: blur(6px);
+         ">
+        <div style="
+            background: #fff;
+            border: 1px solid #e8e0d0;
+            border-radius: 2px;
+            max-width: 480px;
+            width: 100%;
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            text-align: center;
+        ">
+            {{-- Linha dourada topo --}}
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#B08D57,#d4b07a);border-radius:2px 2px 0 0;"></div>
+
+            {{-- Ícone --}}
+            <div style="font-size:2.5rem;margin-bottom:1rem;">🎮</div>
+
+            {{-- Título --}}
+            <p style="font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#8a7a60;margin-bottom:0.5rem;">
+                Aviso
+            </p>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.8rem;font-weight:300;color:#1a1208;line-height:1.2;margin-bottom:1rem;">
+                Área <span style="color:#B08D57;">pessoal</span>
+            </h2>
+
+            {{-- Mensagem --}}
+            <p style="font-family:'Jost',sans-serif;font-size:0.83rem;font-weight:300;color:#5a4e3e;line-height:1.7;margin-bottom:0.75rem;">
+                Esta seção <strong style="font-weight:500;">não faz parte do sistema</strong> do ateliê.<br>
+                É um espaço pessoal usado para testes e experimentos à parte do projeto.
+            </p>
+            <p style="font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:300;color:#a09080;letter-spacing:0.05em;margin-bottom:2rem;">
+                Os dados aqui presentes podem ser ignorados para fins de avaliação.
+            </p>
+
+            {{-- Botões --}}
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <a href="{{ route('dashboard') }}" style="
+                    font-family:'Jost',sans-serif;font-size:0.73rem;letter-spacing:0.16em;
+                    text-transform:uppercase;color:#F7F4EF;background:#1a1208;
+                    border:1px solid #1a1208;padding:0.65rem 1.5rem;
+                    text-decoration:none;transition:all 0.25s ease;border-radius:1px;
+                " onmouseover="this.style.background='#B08D57';this.style.borderColor='#B08D57';"
+                   onmouseout="this.style.background='#1a1208';this.style.borderColor='#1a1208';">
+                    ← Voltar ao Dashboard
+                </a>
+                <button onclick="fecharAvisoPersonal()" style="
+                    font-family:'Jost',sans-serif;font-size:0.73rem;letter-spacing:0.16em;
+                    text-transform:uppercase;color:#8a7a60;background:transparent;
+                    border:1px solid #e8e0d0;padding:0.65rem 1.5rem;
+                    cursor:pointer;transition:all 0.25s ease;border-radius:1px;
+                " onmouseover="this.style.borderColor='#B08D57';this.style.color='#B08D57';"
+                   onmouseout="this.style.borderColor='#e8e0d0';this.style.color='#8a7a60';">
+                    Entendido, continuar
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div class="dash-root py-10 px-4 sm:px-6 lg:px-8">
         <div class="max-w-screen-2xl mx-auto space-y-8">
@@ -303,5 +378,17 @@
             document.getElementById('modalExclusao').classList.add('hidden');
             document.getElementById('modalExclusao').classList.remove('flex');
         }
+
+        // ── Modal Projeto Pessoal ──────────────────────────────────────────
+        function fecharAvisoPersonal() {
+            const modal = document.getElementById('modalProjetoPessoal');
+            modal.style.opacity = '0';
+            modal.style.transition = 'opacity 0.35s ease';
+            setTimeout(() => modal.style.display = 'none', 350);
+        }
+        // Fecha com ESC também
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') fecharAvisoPersonal();
+        });
     </script>
 </x-app-layout>

@@ -6,6 +6,7 @@ use App\Http\Controllers\FornecedoresController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\EstoqueController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,7 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-    // Rotas Crud
+// Rotas Crud
 // Clientes
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
@@ -58,13 +59,14 @@ Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index
 Route::get('/produtos', [ProdutosController::class, 'index'])->name('produtos.index');
 Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoque.index');
 
-// Teste Projeto Pessoal
+// Personagens (projeto pessoal)
 use App\Http\Controllers\CharacterController;
 Route::resource('characters', CharacterController::class);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ── DASHBOARD com dados reais ─────────────────────────────────────────────
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

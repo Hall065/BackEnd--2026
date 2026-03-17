@@ -57,10 +57,7 @@
     $elementSlug    = strtolower($element);
     $elementIconUrl = "https://genshin.jmp.blue/elements/{$elementSlug}/icon";
 
-    // Ícone da região (nação) via genshin.jmp.blue
-    // Exemplo: transforma "Liyue" em "liyue" para a API reconhecer
-    $regionSlug     = strtolower($region);
-    $regionIconUrl  = "https://genshin.jmp.blue/nations/{$regionSlug}/icon";
+    // Ícone de região: SVG genérico (API externa estava quebrando)
 
     // Ícones dos tipos de arma (puxando da Wiki, pois a API não tem a categoria genérica)
     $weaponIcons = [
@@ -88,12 +85,15 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap');
 
     #{{ $uid }} {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         font-family: 'Crimson Pro', Georgia, serif;
     }
 
     #{{ $uid }} .gc {
-        width: 380px;
+        width: 100%;
+        height: 100%;
         background: linear-gradient(170deg, {{ $bgFrom }} 0%, #0d1520 55%, {{ $bgTo }} 100%);
         border-radius: 20px;
         border: 1.5px solid {{ $primary }};
@@ -104,11 +104,13 @@
         overflow: hidden;
         position: relative;
         color: #f0e8d8;
+        display: flex;
+        flex-direction: column;
         transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
     }
 
     #{{ $uid }} .gc:hover {
-        transform: translateY(-6px) scale(1.015);
+        transform: translateY(-6px);
         box-shadow:
             0 0 0 1px rgba(255,255,255,0.07),
             0 20px 56px rgba(0,0,0,0.85),
@@ -134,6 +136,7 @@
         position: relative;
         height: 340px;
         overflow: hidden;
+        clip-path: none;
     }
 
     #{{ $uid }} .gc-img-bg {
@@ -174,11 +177,12 @@
     }
 
     #{{ $uid }} .gc-img-fade {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        height: 160px;
-        background: linear-gradient(to bottom, transparent 0%, rgba(13,21,32,0.55) 45%, #0d1520 100%);
-        z-index: 3;
+        position: relative;
+        margin-top: -80px;
+        height: 80px;
+        background: linear-gradient(to bottom, transparent 0%, #0d1520 100%);
+        z-index: 4;
+        pointer-events: none;
     }
 
     #{{ $uid }} .gc-element-badge {
@@ -217,7 +221,7 @@
     }
 
     /* Body */
-    #{{ $uid }} .gc-body { padding: 0 20px 22px; }
+    #{{ $uid }} .gc-body { padding: 0 20px 22px; display: flex; flex-direction: column; flex: 1; }
 
     #{{ $uid }} .gc-name-block {
         padding: 16px 0 13px;
@@ -278,7 +282,7 @@
         text-align: center;
     }
 
-    #{{ $uid }} .gc-info { padding: 14px 0 6px; display: flex; flex-direction: column; gap: 12px; }
+    #{{ $uid }} .gc-info { padding: 14px 0 6px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
     #{{ $uid }} .gc-info-label {
         font-family: 'Cinzel', serif;
         font-size: 8.5px;
@@ -326,8 +330,6 @@
                 <div class="gc-img-placeholder">⚔</div>
             @endif
 
-            <div class="gc-img-fade"></div>
-
             <div class="gc-element-badge">
                 <img src="{{ $elementIconUrl }}" alt="{{ $element }}" class="gc-element-icon">
                 <span class="gc-element-text">{{ $element }}</span>
@@ -342,6 +344,7 @@
             </div>
         </div>
 
+        <div class="gc-img-fade"></div>
         <div class="gc-body">
 
             <div class="gc-name-block">
@@ -368,7 +371,7 @@
                 
                 <div class="gc-attr">
                     <div class="gc-attr-icon">
-                        <img src="{{ $regionIconUrl }}" alt="{{ $region }}" style="transform:rotate(-45deg);width:20px;height:20px;object-fit:contain;">
+                        <svg style="transform:rotate(-45deg);width:20px;height:20px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="{{ $primary }}" opacity="0.85"/><circle cx="12" cy="9" r="2.5" fill="white" opacity="0.9"/></svg>
                     </div>
                     <div class="gc-attr-label">Region</div>
                     <div class="gc-attr-value">{{ $region }}</div>

@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Fornecedors\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -17,30 +16,33 @@ class FornecedorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('nome')
-                    ->label('Nome')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('razao_social')
+                    ->searchable(),
+                TextColumn::make('nome_fantasia')
+                    ->searchable(),
+                TextColumn::make('documento')
+                    ->searchable(),
+                TextColumn::make('inscricao_estadual')
+                    ->searchable(),
                 TextColumn::make('email')
-                    ->label('E-mail')
+                    ->label('Email address')
                     ->searchable(),
-                TextColumn::make('telefone')
-                    ->label('Telefone')
+                TextColumn::make('telefone(WhatsApp)')
                     ->searchable(),
-                TextColumn::make('cpf')
-                    ->label('CPF/CNPJ')
-                    ->searchable()
-                    ->formatStateUsing(fn (?string $state): string =>
-                        $state === null ? '-' : (
-                            strlen($state) <= 11
-                                ? preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $state)
-                                : preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $state)
-                        )
-                    ),
+                TextColumn::make('endereco')
+                    ->searchable(),
+                TextColumn::make('tipo_material')
+                    ->badge(),
                 IconColumn::make('ativo')
-                    ->label('Ativo')
-                    ->boolean()
-                    ->sortable(),
+                    ->boolean(),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -48,7 +50,6 @@ class FornecedorsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

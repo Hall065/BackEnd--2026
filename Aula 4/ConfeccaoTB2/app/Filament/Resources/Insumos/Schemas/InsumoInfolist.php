@@ -12,13 +12,11 @@ class InsumoInfolist
         return $schema
             ->components([
                 TextEntry::make('nome'),
-                TextEntry::make('quantidade')
-                    ->numeric(),
-                TextEntry::make('unidade'),
-                TextEntry::make('fornecedor_id')
+                TextEntry::make('unidade_medida'),
+                TextEntry::make('preco_custo')
                     ->numeric()
                     ->placeholder('-'),
-                TextEntry::make('custo_unitario')
+                TextEntry::make('estoque')
                     ->numeric(),
                 TextEntry::make('created_at')
                     ->dateTime()

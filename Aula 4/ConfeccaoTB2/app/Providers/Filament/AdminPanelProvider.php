@@ -26,22 +26,12 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->topNavigation()
             ->path('admin')
             ->login()
-            ->registration()
-            ->brandName('Etheria')
             ->colors([
-                'primary' => Color::Indigo,
-                'gray' => Color::Slate,
+                'primary' => Color::Amber,
             ])
-            ->font('Inter')
-            ->favicon(asset('favicon.ico'))
-            ->sidebarCollapsibleOnDesktop()
-            ->collapsibleNavigationGroups()
-            ->maxContentWidth('full')
-            ->spa()
-            ->profile()
-            ->databaseNotifications()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

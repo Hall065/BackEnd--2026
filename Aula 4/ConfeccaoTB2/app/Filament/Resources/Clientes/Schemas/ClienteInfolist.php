@@ -17,13 +17,7 @@ class ClienteInfolist
                     ->placeholder('-'),
                 TextEntry::make('telefone')
                     ->placeholder('-'),
-                TextEntry::make('cpf')
-                    ->placeholder('-'),
-                TextEntry::make('endereco')
-                    ->placeholder('-'),
-                TextEntry::make('cidade')
-                    ->placeholder('-'),
-                TextEntry::make('estado')
+                TextEntry::make('documento')
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()

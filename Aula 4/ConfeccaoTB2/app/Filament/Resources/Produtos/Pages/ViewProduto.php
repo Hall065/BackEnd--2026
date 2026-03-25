@@ -3,17 +3,17 @@
 namespace App\Filament\Resources\Produtos\Pages;
 
 use App\Filament\Resources\Produtos\ProdutoResource;
-use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
 
-class ManageProdutos extends ManageRecords
+class ViewProduto extends ViewRecord
 {
     protected static string $resource = ProdutoResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            EditAction::make(),
         ];
     }
 }

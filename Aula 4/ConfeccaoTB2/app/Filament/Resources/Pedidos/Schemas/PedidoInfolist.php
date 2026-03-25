@@ -14,10 +14,9 @@ class PedidoInfolist
                 TextEntry::make('cliente_id')
                     ->numeric(),
                 TextEntry::make('status'),
-                TextEntry::make('data_pedido')
-                    ->date(),
-                TextEntry::make('total')
-                    ->numeric(),
+                TextEntry::make('valor_total')
+                    ->numeric()
+                    ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

@@ -12,21 +12,21 @@ class FornecedorInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('nome'),
+                TextEntry::make('razao_social'),
+                TextEntry::make('nome_fantasia')
+                    ->placeholder('-'),
+                TextEntry::make('documento'),
+                TextEntry::make('inscricao_estadual')
+                    ->placeholder('-'),
                 TextEntry::make('email')
                     ->label('Email address')
                     ->placeholder('-'),
-                TextEntry::make('telefone')
-                    ->placeholder('-'),
-                TextEntry::make('tipo_pessoa'),
-                TextEntry::make('cpf')
+                TextEntry::make('telefone(WhatsApp)')
                     ->placeholder('-'),
                 TextEntry::make('endereco')
                     ->placeholder('-'),
-                TextEntry::make('cidade')
-                    ->placeholder('-'),
-                TextEntry::make('estado')
-                    ->placeholder('-'),
+                TextEntry::make('tipo_material')
+                    ->badge(),
                 IconEntry::make('ativo')
                     ->boolean(),
                 TextEntry::make('created_at')

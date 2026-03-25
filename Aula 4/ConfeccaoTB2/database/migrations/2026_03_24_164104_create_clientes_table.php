@@ -13,19 +13,10 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-
-            $table->string('nome');
-            $table->string('email')->unique()->nullable();
-            $table->string('telefone')->nullable();
-
-            $table->string('tipo_pessoa')->default('CPF'); // Adicionado
-            $table->string('cpf')->unique()->nullable();
-
-            $table->string('endereco')->nullable();
-            $table->string('cidade')->nullable();
-            $table->string('estado', 2)->nullable();
-            $table->boolean('ativo')->default(true); // Adicionado
-
+            $table->string("nome");
+            $table->string("email")->nullable();
+            $table->string("telefone")->nullable();
+            $table->string("documento")->nullable();
             $table->timestamps();
         });
     }

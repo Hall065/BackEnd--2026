@@ -2,25 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Cliente;
+use App\Models\ItemPedido;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pedido extends Model
 {
     protected $guarded = [];
 
-    protected $casts = [
-        'data_pedido' => 'date',
-    ];
 
-    public function cliente(): BelongsTo
-    {
+    public function cliente(){
         return $this->belongsTo(Cliente::class);
     }
 
-    public function items(): HasMany
-    {
-        return $this->hasMany(PedidoItem::class);
+    public function itens() {
+        return $this->hasMany(ItemPedido::class);
     }
 }

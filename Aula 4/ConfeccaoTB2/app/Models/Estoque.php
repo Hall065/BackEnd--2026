@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Insumo extends Model
+class Estoque extends Model
 {
-    protected $guarded = [];
+    //
 }

@@ -8,16 +8,12 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePedido extends CreateRecord
 {
     protected static string $resource = PedidoResource::class;
-
-    // Recalcula o total após salvar, pois o Repeater persiste os itens depois do pedido
-    protected function afterCreate(): void
-    {
+    protected function afterCreate() {
         $pedido = $this->record;
+        $total = $pedido->itens->sum(function ($item) {
+            return $item->quantidade * $item->preco_unitario;
+        });
 
-        $total = $pedido->items->sum(
-            fn ($item) => $item->quantidade * $item->preco_unitario
-        );
-
-        $pedido->update(['total' => $total]);
+        $pedido->update(['valor_total' => $total]);
     }
 }

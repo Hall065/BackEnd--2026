@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Filament\Resources\Financeiros\Schemas;
+namespace App\Filament\Resources\Produtos\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class FinanceiroInfolist
+class ProdutoInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextEntry::make('descricao'),
-                TextEntry::make('tipo'),
-                TextEntry::make('valor')
-                    ->numeric(),
-                TextEntry::make('data_vencimento')
-                    ->date(),
-                TextEntry::make('data_pagamento')
-                    ->date()
+                TextEntry::make('nome'),
+                TextEntry::make('referencia')
                     ->placeholder('-'),
-                TextEntry::make('status'),
+                TextEntry::make('preco_venda')
+                    ->numeric()
+                    ->placeholder('-'),
+                TextEntry::make('estoque')
+                    ->numeric(),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

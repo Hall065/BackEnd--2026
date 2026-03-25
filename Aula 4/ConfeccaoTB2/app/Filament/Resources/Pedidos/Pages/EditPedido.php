@@ -19,15 +19,12 @@ class EditPedido extends EditRecord
         ];
     }
 
-    // Recalcula o total sempre que o pedido for editado e salvo
-    protected function afterSave(): void
-    {
+    protected function afterSave() {
         $pedido = $this->record;
+        $total = $pedido->itens->sum(function ($item) {
+            return $item->quantidade * $item->preco_unitario;
+        });
 
-        $total = $pedido->items->sum(
-            fn ($item) => $item->quantidade * $item->preco_unitario
-        );
-
-        $pedido->update(['total' => $total]);
+        $pedido->update(['valor_total' => $total]);
     }
 }

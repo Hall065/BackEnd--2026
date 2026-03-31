@@ -6,26 +6,28 @@ use App\Filament\Resources\Estoques\Pages\CreateEstoque;
 use App\Filament\Resources\Estoques\Pages\EditEstoque;
 use App\Filament\Resources\Estoques\Pages\ListEstoques;
 use App\Filament\Resources\Estoques\Pages\ViewEstoque;
-use App\Filament\Resources\Estoques\Schemas\EstoqueForm;
 use App\Filament\Resources\Estoques\Schemas\EstoqueInfolist;
-use App\Filament\Resources\Estoques\Tables\EstoquesTable;
 use App\Models\Estoque;
 use BackedEnum;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class EstoqueResource extends Resource
 {
     protected static ?string $model = Estoque::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArchiveBox;
 
-    protected static ?string $recordTitleAttribute = 'Estoques';
+    protected static ?string $navigationLabel = 'Estoques';
+
+    protected static ?string $recordTitleAttribute = 'produto.nome';
 
     public static function form(Schema $schema): Schema
     {
@@ -36,6 +38,7 @@ class EstoqueResource extends Resource
                 ->searchable()
                 ->preload()
                 ->required()
+                ->unique(ignoreRecord: true) // 1 produto → 1 estoque
                 ->createOptionForm([
                     TextInput::make('nome')
                         ->label('Nome do Produto')
@@ -53,6 +56,7 @@ class EstoqueResource extends Resource
             TextInput::make('quantidade')
                 ->label('Quantidade Atual')
                 ->numeric()
+                ->minValue(0)
                 ->default(0)
                 ->required()
                 ->columnSpan(1),
@@ -71,47 +75,62 @@ class EstoqueResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
-            TextColumn::make('produto.nome')
-                ->label('Produto')
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('produto.referencia')
-                ->label('Ref/SKU')
-                ->toggleable(isToggledHiddenByDefault: true),
+        return $table
+            ->columns([
+                TextColumn::make('produto.nome')
+                    ->label('Produto')
+                    ->searchable()
+                    ->sortable(),
 
-            TextColumn::make('quantidade')
-                ->label('Qtd. em Estoque')
-                ->numeric()
-                ->sortable()
-                ->color(fn (int $state): string => $state <= 5 ? 'danger' : 'success'),
+                TextColumn::make('produto.referencia')
+                    ->label('Ref/SKU')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
-            TextColumn::make('localizacao')
-                ->label('Localização')
-                ->searchable()
-                ->placeholder('Não definida'),
+                TextColumn::make('quantidade')
+                    ->label('Qtd. em Estoque')
+                    ->badge()
+                    ->color(fn (int $state): string => match(true) {
+                        $state <= 0 => 'danger',
+                        $state <= 5 => 'warning',
+                        default     => 'success',
+                    })
+                    ->sortable(),
 
-            TextColumn::make('updated_at')
-                ->label('Última Atualização')
-                ->dateTime('d/m/Y H:i')
-                ->sortable(),
-        ]);
+                TextColumn::make('localizacao')
+                    ->label('Localização')
+                    ->searchable()
+                    ->placeholder('Não definida'),
+
+                TextColumn::make('updated_at')
+                    ->label('Última Atualização')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable(),
+            ])
+            ->filters([
+                Filter::make('estoque_baixo')
+                    ->label('Estoque Baixo (≤ 5)')
+                    ->query(fn (Builder $query) => $query->where('quantidade', '<=', 5)),
+
+                Filter::make('zerado')
+                    ->label('Zerado')
+                    ->query(fn (Builder $query) => $query->where('quantidade', '<=', 0)),
+            ])
+            ->defaultSort('quantidade', 'asc');
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListEstoques::route('/'),
+            'index'  => ListEstoques::route('/'),
             'create' => CreateEstoque::route('/create'),
-            'view' => ViewEstoque::route('/{record}'),
-            'edit' => EditEstoque::route('/{record}/edit'),
+            'view'   => ViewEstoque::route('/{record}'),
+            'edit'   => EditEstoque::route('/{record}/edit'),
         ];
     }
 }

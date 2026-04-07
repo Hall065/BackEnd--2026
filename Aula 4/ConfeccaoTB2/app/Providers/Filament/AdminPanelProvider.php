@@ -26,21 +26,26 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->topNavigation()
             ->path('admin')
             ->login()
+            ->brandName('Confeccção')
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(
+                in: app_path('Filament/Resources'),
+                for: 'App\\Filament\\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/Pages'),
+                for: 'App\\Filament\\Pages'
+            )
             ->pages([
                 Dashboard::class,
             ])
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
-
                 \App\Filament\Widgets\StatsOverviewWidget::class,
                 \App\Filament\Widgets\EstoqueCriticoWidget::class,
             ])

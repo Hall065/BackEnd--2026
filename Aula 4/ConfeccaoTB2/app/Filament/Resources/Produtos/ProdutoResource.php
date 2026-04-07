@@ -11,6 +11,7 @@ use App\Models\Produto;
 use BackedEnum;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -19,8 +20,9 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
-class ProdutoResource extends Resource
+class ProdutoResource extends BaseResource
 {
     protected static ?string $model = Produto::class;
 
@@ -29,6 +31,8 @@ class ProdutoResource extends Resource
     protected static ?string $navigationLabel = 'Produtos';
 
     protected static ?string $recordTitleAttribute = 'nome';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Estoque';
 
     public static function form(Schema $schema): Schema
     {

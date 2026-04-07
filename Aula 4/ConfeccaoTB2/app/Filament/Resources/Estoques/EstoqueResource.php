@@ -12,14 +12,16 @@ use BackedEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
-class EstoqueResource extends Resource
+class EstoqueResource extends BaseResource
 {
     protected static ?string $model = Estoque::class;
 
@@ -28,6 +30,10 @@ class EstoqueResource extends Resource
     protected static ?string $navigationLabel = 'Estoques';
 
     protected static ?string $recordTitleAttribute = 'produto.nome';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Estoque';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {

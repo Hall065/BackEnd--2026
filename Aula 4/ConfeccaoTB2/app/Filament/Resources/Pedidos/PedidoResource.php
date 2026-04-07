@@ -12,6 +12,7 @@ use App\Filament\Resources\Pedidos\Tables\PedidosTable;
 use App\Models\Pedido;
 use BackedEnum;
 use Filament\Resources\Resource;
+use App\Filament\Resources\BaseResource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -23,13 +24,17 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-class PedidoResource extends Resource
+use UnitEnum;
+class PedidoResource extends BaseResource
 {
     protected static ?string $model = Pedido::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'Pedidos';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Vendas';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {
